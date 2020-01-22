@@ -27,7 +27,7 @@ class StarTrackHandler:
         if not character:
             _character = random.choice(list(self.data[_series][_episode].keys()))
         else:
-            _character = character
+            _character = character.upper()
         while not len(sentences) and options and iter > 0:
             if not series:
                 _series = random.choice(list(self.data.keys()))
@@ -35,9 +35,10 @@ class StarTrackHandler:
                 _episode = random.choice(list(self.data[_series].keys()))
             if not character:
                 _character = random.choice(list(self.data[_series][_episode].keys()))
-            if series and episode and character:
-                options = False
-            sentences = self.data[_series][_episode][_character]
+            if _character in list(self.data[_series][_episode].keys()):
+                if series and episode and character:
+                    options = False
+                sentences = self.data[_series][_episode][_character]
             iter -= 1
         if len(sentences):
             return _character + ": " + random.choice(sentences)
@@ -56,4 +57,4 @@ class StarTrackHandler:
 
     def get_characters(self):
         return set(
-            character for series in self.data.values() for episodes in series.values() for character in episodes.keys())
+            character.lower() for series in self.data.values() for episodes in series.values() for character in episodes.keys())

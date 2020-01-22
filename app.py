@@ -3,12 +3,14 @@ from flask import Flask, render_template, request
 # import bot file as module
 from chatbot_startrek import ChatbotStarTrek as chatbot
 from chatbot_startrek.StarTrackHandler import StarTrackHandler
+from chatbot_startrek.DialogStateTracker import DialogStateTracker
 
 app = Flask(__name__)
 
 startrackhandler = StarTrackHandler("data", "all_series_lines.json")
 print(startrackhandler.get_random_sentence())
-chatbot = chatbot.Chatbot(startrackhandler)
+dialogstatehandler = DialogStateTracker()
+chatbot = chatbot.Chatbot(startrackhandler, dialogstatehandler)
 
 
 @app.route("/")
